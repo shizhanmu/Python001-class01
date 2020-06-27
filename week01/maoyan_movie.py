@@ -12,8 +12,8 @@ import pandas as pd
 
 
 user_agent = 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/79.0.3945.88 Safari/537.36'
-header = {'user-agent': user_agent,
-          'cookie': '''__mta=19176199.1593004055145.1593005658093.1593007927878.4; uuid_n_v=v1; uuid=AA238C10B61B11EA8A833903D31672836012E0D50DBA44E5BBE3ADECCD9B2E29; _csrf=790960f76c9f00ffa83475be376f8b23232ad50463f6dbb0ccb8063da85255d2; _lxsdk_cuid=172e670d396c8-03b1072a6b489f-6701b35-384000-172e670d396c8; _lxsdk=AA238C10B61B11EA8A833903D31672836012E0D50DBA44E5BBE3ADECCD9B2E29; mojo-uuid=977abed41d34bc696c901fc0c80766f2; Hm_lvt_703e94591e87be68cc8da0da7cbd0be2=1593004053,1593008805; Hm_lpvt_703e94591e87be68cc8da0da7cbd0be2=1593008814; __mta=19176199.1593004055145.1593007927878.1593008814624.5; _lxsdk_s=172e9387a50-975-7f6-2b0%7C%7C3'''}
+cookie = '''__mta=19176199.1593004055145.1593005658093.1593007927878.4; uuid_n_v=v1; uuid=AA238C10B61B11EA8A833903D31672836012E0D50DBA44E5BBE3ADECCD9B2E29; _csrf=790960f76c9f00ffa83475be376f8b23232ad50463f6dbb0ccb8063da85255d2; _lxsdk_cuid=172e670d396c8-03b1072a6b489f-6701b35-384000-172e670d396c8; _lxsdk=AA238C10B61B11EA8A833903D31672836012E0D50DBA44E5BBE3ADECCD9B2E29; mojo-uuid=977abed41d34bc696c901fc0c80766f2; Hm_lvt_703e94591e87be68cc8da0da7cbd0be2=1593004053,1593008805; Hm_lpvt_703e94591e87be68cc8da0da7cbd0be2=1593008814; __mta=19176199.1593004055145.1593007927878.1593008814624.5; _lxsdk_s=172e9387a50-975-7f6-2b0%7C%7C3'''
+header = {'user-agent': user_agent, 'cookie': cookie}
 
 
 def get_ten_urls(myurl):
@@ -44,10 +44,10 @@ def get_movie_info(url):
         print(name)
         movie_type = ''
         for atag in tags.find_all('a', ):
-            movie_type += atag.text.strip() + ' '
-            movie_type = movie_type.strip()
+            movie_type += ' ' + atag.text.strip()
+        movie_type = movie_type.strip()
         print(movie_type)
-        li_tags = tags.find_all('li', attrs={'class', 'ellipsis'})
+        li_tags = tags.find_all('li', attrs={'class': 'ellipsis'})
         raw_date = li_tags[2].text    # 提取第 3 个li标签中的文字
         play_date = re.match(r'\d{4}-\d{2}-\d{2}', raw_date).group()
         print(play_date)
@@ -65,4 +65,4 @@ if __name__ == '__main__':
         sleep(5)
     
     movies = pd.DataFrame(data=movie_infos)
-    movies.to_csv('./movies.csv', encoding='utf-8', index=False, header=False)
+    movies.to_csv('movies.csv', encoding='utf-8', index=False, header=False)

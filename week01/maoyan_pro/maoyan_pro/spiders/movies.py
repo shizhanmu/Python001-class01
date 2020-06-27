@@ -13,10 +13,11 @@ from maoyan_pro.items import MaoyanProItem
 class MoviesSpider(scrapy.Spider):
     name = 'movies'
     allowed_domains = ['maoyan.com']
-    start_urls = ['https://maoyan.com/films?showType=3']
+    start_urls = ['https://maoyan.com/']
 
     def start_requests(self):
-            yield scrapy.Request(url=self.start_urls[0], callback=self.parse)
+        url = 'https://maoyan.com/films?showType=3'
+        yield scrapy.Request(url=url, callback=self.parse)
 
     def parse(self, response):
         for i in range(10):
