@@ -4,8 +4,7 @@
 # 将保存至 csv 文件的功能修改为保持到 MySQL，并在下载部分增加异常捕获和处理机制。
 # 备注：代理 IP 可以使用 GitHub 提供的免费 IP 库。
 
-import csv
-import pymysql.cursors
+import pymysql
 from scrapy.exporters import CsvItemExporter
 
 
@@ -19,26 +18,26 @@ dbInfo = {
 }
 
 
-# Connect to the database
-connection = pymysql.connect(host=dbInfo['host'],
-                             port=dbInfo['port'],
-                             user=dbInfo['user'],
-                             password=dbInfo['password'],
-                             db=dbInfo['db'],
-                             charset=dbInfo['charset'],
-                             cursorclass=pymysql.cursors.DictCursor)
-
-cursor = None
-
 class MaoyanProPipeline:
 
+    def __init__(self):
+        # Connect to the database
+        conn = pymysql.connect(
+            host=dbInfo['host'],
+            port=dbInfo['port'],
+            user=dbInfo['user'],
+            password=dbInfo['password'],
+            db=dbInfo['db'],
+            charset=dbInfo['charset'],
+            cursorclass=pymysql.cursors.DictCursor
+        )
+        self.conn = conn
+
     def open_spider(self, spider):
-        global cursor
-        cursor = connection.cursor()
+        self.cur = self.conn.cursor()
 
 
     def process_item(self, item, spider):
-        global cursor
         movie_name = item['movie_name']
         movie_type = item['movie_type']
         play_date = item['play_date']
@@ -46,19 +45,14 @@ class MaoyanProPipeline:
         try:
             # Create a new record
             sql = "INSERT INTO `movie_info` (`movie_name`, `movie_type`, `play_date`) VALUES (%s, %s, %s)"
-            cursor.execute(sql, (movie_name, movie_type, play_date))
+            values = (movie_name, movie_type, play_date)
+            self.cur.execute(sql, values)
         except:
-            cursor.rollback()
-            # with connection.cursor() as cursor:
-            #     # Read a single record
-            #     sql = "SELECT `movie_name`, `movie_type`, `play_date` FROM `movie_info`"
-            #     cursor.execute(sql)
-            #     result = cursor.fetchone()
-            #     print(result)
+            self.cur.rollback()
 
         return item
 
     def close_spider(self, spider):
-        cursor.close()
-        connection.commit()
-        connection.close()
+        self.cur.close()
+        self.conn.commit()
+        self.conn.close()

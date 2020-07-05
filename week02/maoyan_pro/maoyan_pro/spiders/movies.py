@@ -10,38 +10,20 @@ from maoyan_pro.items import MaoyanProItem
 
 class MoviesSpider(scrapy.Spider):
     name = 'movies'
-    # allowed_domains = ['pythonanywhere.com']
-    # start_urls = ['https://shizhanmu.pythonanywhere.com/']
     allowed_domains = ['maoyan.com']
     start_urls = ['https://maoyan.com/']
 
     def start_requests(self):
-        # url = 'https://shizhanmu.pythonanywhere.com'
         url = 'https://maoyan.com/films?showType=3'
         yield scrapy.Request(url=url, callback=self.parse)
 
     def parse(self, response):
-        # urls = response.xpath('//h5/a/@href')[:10].getall()
-        # for url in urls:
-        #     url = response.urljoin(url)
-        #     yield scrapy.Request(url=url, callback=self.parse_movie)
         urls = response.xpath('//div[@class="channel-detail movie-item-title"]/a/@href')[:10].getall()
         for url in urls:
             url = response.urljoin(url)
             yield scrapy.Request(url=url, callback=self.parse_movie)
 
     def parse_movie(self, response):
-        # items = []
-        # movie_name = response.xpath('//h4/text()').get().strip()
-        # movie_type = response.xpath('//h4/following::*/text()').get()[:5]
-        # raw_date = response.xpath('//small[@class="text-muted"]/text()')[0]
-        # play_date = raw_date.re_first(r'\d{4}年\d+月\d+日')  
-        # item = MaoyanProItem()
-        # item['movie_name'] = movie_name
-        # item['movie_type'] = movie_type
-        # item['play_date'] = play_date
-        # items.append(item)
-        # return items
         items = []
         movie_name = response.xpath('//div[@class="movie-brief-container"]/h1/text()').get()
         type_list = response.xpath('//li[@class="ellipsis"]/a/text()').getall()
