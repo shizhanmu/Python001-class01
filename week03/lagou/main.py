@@ -29,7 +29,7 @@ def parse_page(html):
     city = sel.xpath('//a[@class="current_city current"]/text()')[0]
     lis = sel.xpath('//li[@class="con_list_item default_list"]')
     for li in lis:
-        title = li.xpath('./@data-positionname')[0]
+        title = li.xpath('./@data-positionname')[0].lower()
         salary = li.xpath('./@data-salary')[0]
         pos_list.append({'city': city, 'title': title, 'salary': salary})
     return pos_list
@@ -41,7 +41,7 @@ def gen_sqls(pos_list):
         city = d['city']
         title = d['title']
         salary = d['salary']
-        sql = f"insert into position values(null, \'{city}\',\'{title}\',\'{salary}\')"
+        sql = f"insert ignore into position values(null, \'{city}\',\'{title}\',\'{salary}\')"
         sqls.append(sql)
     return sqls
 
