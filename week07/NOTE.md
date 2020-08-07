@@ -6,6 +6,6 @@
    - 让父类继承ABC
    - 在父类某个方法上加 @abstractmethod装饰器
 2. 获取实例所属类名称的两种方法:
-   - cat.__class__.__name__
-   - type(cat).__name__
+    cat.__class__.__name__
+    type(cat).__name__
 3. 在Python shell中粘贴类定义的时候, 注意不要有空行, 否则会报错.
