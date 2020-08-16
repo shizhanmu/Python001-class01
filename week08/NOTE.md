@@ -7,6 +7,7 @@
 2. yield表达式
    一个生成器刚生成后, 必须先要执行一次 next()才能通过执行send(2)把参数值传递进去, 否则会报错:
     TypeError: can't send non-None value to a just-started generator
+    
    ```python
     def jumping_range(up_to):
         index = 0
@@ -43,6 +44,7 @@
     index is 2
     2
    ```
+
 3. 迭代器和生成器的区别
    迭代器可以遍历很多次, 而生成器只能遍历一次，迭代完成时再调用next()方法会返回
    StopIteration异常。
