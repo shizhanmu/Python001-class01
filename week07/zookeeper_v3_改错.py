@@ -21,7 +21,7 @@ class Zoo:
         return f'{self.name}(animals: {self.animal_class_list})'
 
     def __getattr__(self, item):
-        return bool(self.animals.get(item)) or False
+        return bool(self.animals.get(item))
 
 class Animal(ABC):
     @abstractmethod
