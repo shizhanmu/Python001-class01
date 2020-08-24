@@ -9,3 +9,6 @@ http://127.0.0.1:8000/accounts/register/
 http://127.0.0.1:8000/accounts/login/
 登出：
 http://127.0.0.1:8000/accounts/logout/
+
+超级用户： admin
+密码： 12345678
