@@ -1,4 +1,6 @@
 # 运行
+python manage.p migrate
+python manage.py createsuperuser
 python manage.py runserver
 
 ## 然后用浏览器访问：
@@ -9,6 +11,3 @@ http://127.0.0.1:8000/accounts/register/
 http://127.0.0.1:8000/accounts/login/
 登出：
 http://127.0.0.1:8000/accounts/logout/
-
-超级用户： admin
-密码： 12345678
