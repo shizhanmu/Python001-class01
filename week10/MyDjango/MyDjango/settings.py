@@ -103,7 +103,7 @@ WSGI_APPLICATION = 'MyDjango.wsgi.application'
 DATABASES = {
     'default': {
         'ENGINE': 'django.db.backends.mysql',
-        'NAME': 'top250',
+        'NAME': 'smzdm',
         'USER': 'root',
         'PASSWORD': 'tert1234',
         'HOST': '127.0.0.1',
@@ -151,7 +151,7 @@ USE_I18N = True
 
 USE_L10N = True
 
-USE_TZ = True
+USE_TZ = False
 
 
 # Static files (CSS, JavaScript, Images)

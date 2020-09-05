@@ -1,0 +1,16 @@
+<html>
+<head>
+    <meta charset="UTF-8">
+    <title>Books</title>
+</head>
+<body>
+
+{% for comment in comments %}
+    <div>ID: {{ comment.id }}   <br>
+           title: {{ comment.title }} <br>
+           comment: {{ comment.comment }} <br>
+           stars:  {{ comment.n_star }}  <br>
+           sentiment: {{comment.sentiment}}
+    </div>
+{% endfor %}
+</body>

@@ -1,0 +1,79 @@
+{% extends "base_layout.html" %} {% block title %}Welcome{% endblock %} 
+{% load static %}
+{% block head %}
+    {{ block.super }}
+    <link rel="stylesheet" href="{% static 'css/timeline.css' %}">
+    <!-- <link rel="stylesheet" href="{% static 'css/morris.css' %}"> -->
+{% endblock %} 
+{% block content %}
+<!--<div class="row">
+    <div class="col-lg-12">
+        <h1 class="page-header">什么值得买产品评价数据——气泡水</h1>
+    </div>
+    <!-- /.col-lg-12 -->
+    
+<!-- </div> -->
+<!-- /.row -->
+<div class="row">
+    {% if error_msg %}
+    <p>{{ error_msg }}</p>
+    {% endif %}
+</div>
+<!-- /.row -->
+
+<div class="col-lg-12">
+
+    <div class="panel panel-default">
+        <div class="col-lg-12">
+            <h2 class="page-header">搜索到 {{ qipaoshuis | length }} 个结果：</h2>
+        </div>
+        <!-- /.panel-heading -->
+        <div class="panel-body">
+            <div class="row">
+                <div class="col-lg-12">
+                    <div class="table-responsive">
+                        <table class="table table-bordered table-hover table-striped">
+                            <thead>
+                                <tr>
+                                    <th width="50">序号</th>
+                                    <th width="35%">产品标题</th>
+                                    <th width="35%">评论</th>
+                                    <th width="200">发表时间</th>
+                                    <th width="100">情感倾向</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                {% for qps in qipaoshuis %}
+                                    <tr>
+                                        <td>{{forloop.counter}}</td>
+                                        <td>{{qps.title}}</td>
+                                        <td>{{qps.comment}}</td>
+                                        <td>{{qps.qptime}}</td>
+                                        <td>{{qps.sentiment | floatformat:'2'}}</td>
+                                    </tr>
+                                {% endfor %}
+                            </tbody>
+                        </table>
+                    </div>
+                    <!-- /.table-responsive -->
+                </div>
+                <!-- /.col-lg-4 (nested) -->
+
+            </div>
+            <!-- /.row -->
+        </div>
+        <!-- /.panel-body -->
+    </div>
+    <!-- /.panel -->
+
+</div>
+<!-- /.col-lg-8 -->
+<!-- /.row -->
+{% endblock %}
+{% block js %}
+    {{ block.super }}
+    <script src="{% static 'js/raphael-min.js' %}"></script>
+    <!-- <script src="{% static 'js/morris.min.js' %}"></script> -->
+    <!-- <script src="{% static 'js/morris-data.js' %}"></script> -->
+
+{% endblock %}
