@@ -48,7 +48,9 @@ class SentimentAnalyzer(object):
                 lambda a: self.get_sentiment(a))
             DBOperation().append_df_table(df, dest_table)
 
-
-if __name__ == '__main__':
+def sentiment_task():
     sa = SentimentAnalyzer()
     sa.batch_sentiment('qipaoshui_cleaned', 'qipaoshui_cleaned2')
+
+if __name__ == '__main__':
+    sentiment_task()

@@ -48,6 +48,7 @@ INSTALLED_APPS = [
     'django.contrib.staticfiles',
     #### 注册自己的APP
     'index',
+    'djcelery',
     'Douban',
 ]
 #### 中间件是request和response对象之间的钩子
@@ -105,7 +106,7 @@ DATABASES = {
         'ENGINE': 'django.db.backends.mysql',
         'NAME': 'smzdm',
         'USER': 'root',
-        'PASSWORD': 'tert1234',
+        'PASSWORD': '12345678',
         'HOST': '127.0.0.1',
         'PORT': '3306',
     }
@@ -158,3 +159,13 @@ USE_TZ = False
 # https://docs.djangoproject.com/en/2.2/howto/static-files/
 
 STATIC_URL = '/static/'
+
+from celery.schedules import crontab    # 计划任务功能
+from celery.schedules import timedelta  # 时间偏移
+
+import djcelery
+djcelery.setup_loader()                 # djcelery初始化
+BROKER_URL = 'redis://:12345678@127.0.0.1:6379/' # 代理人 注意密码左侧要有一个冒号！
+CELERY_IMPORTS = ('Douban.tasks')   # 指定执行哪个app下的任务
+CELERY_TIMEZONE = 'Asia/Shanghai'   # 设置时区，会覆盖django的时区设置
+CELERYBEAT_SCHEDULER = 'djcelery.schedulers.DatabaseScheduler'  # 定时任务调度器

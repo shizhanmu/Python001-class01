@@ -1,0 +1,12 @@
+""" 数据库相关信息 """
+HOST = '127.0.0.1'
+PORT = 3306
+USERNAME = 'root'
+PASSWORD = '12345678'
+DB = 'smzdm'
+CHARSET = 'utf8mb4'
+
+""" 百度AI 个人 APPID AK SK """
+APP_ID = '2230833445'
+API_KEY = 'XXXXXXXXXGKvjVOSbtPdpfq0'
+SECRET_KEY = 'XXXXXXXXXXXXXDzBa0vZDQh9B'

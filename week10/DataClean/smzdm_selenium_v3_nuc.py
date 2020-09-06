@@ -15,31 +15,6 @@ from lxml import etree
 
 from DBOperator import DBOperation
 
-# 获取随机user_agent
-user_agents = ['Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:75.0) Gecko/20100101 Firefox/75.0',
-               'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/79.0.3945.88 Safari/537.36',
-               'Mozilla/5.0 (Macintosh; Intel Mac OS X 10_13_6) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/79.0.3945.88 Safari/537.36',
-               'Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_1) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/78.0.3904.108 Safari/537.36',
-               'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/83.0.4103.106 Safari/537.36 Edg/83.0.478.54',
-               'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/83.0.4103.106 Safari/537.36',
-               'Mozilla/5.0 (Windows NT 6.1; Win64; x64; rv:59.0) Gecko/20100101 Firefox/59.0',
-               'Mozilla/5.0 (Windows NT 10.0; WOW64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/66.0.3359.139 Safari/537.36',
-               'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/79.0.3945.88 Safari/537.36',
-               'Mozilla/5.0 (Macintosh; Intel Mac OS X 10_13_6) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/79.0.3945.88 Safari/537.36',
-]
-user_agent = random.choice(user_agents)
-
-# 获取随机proxy地址
-with open('proxy_list.txt') as f:
-    try:
-        proxy_list = f.readlines()
-    except Exception as e:
-        print(e)
-# PROXY = random.choice(proxy_list) # IP:PORT or HOST:PORT
-
-def random_proxy():
-    return random.choice(proxy_list).strip()
-
 
 class cached_class_property(object):
     """ 类属性缓存装饰器 """
@@ -75,8 +50,8 @@ class DriverWrapper():
             options = webdriver.ChromeOptions()
             options.add_argument('lang=zh_CN.UTF-8')
             options.add_experimental_option("excludeSwitches", ["enable-logging"])
-            options.add_argument(f'--proxy-server={random_proxy()}')
-            options.add_argument(f'user-agent={user_agent}')
+            options.add_argument(f'--proxy-server={self.random_proxy()}')
+            options.add_argument(f'user-agent={self.random_user_agent()}')
             browser = webdriver.Chrome(options=options)
             browser.maximize_window()
             browser.implicitly_wait(30)
@@ -96,6 +71,31 @@ class DriverWrapper():
         logger_var.addHandler(stream_handler)
         return logger_var
 
+    @staticmethod
+    def random_user_agent():
+        # 获取随机user_agent
+        user_agents = ['Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:75.0) Gecko/20100101 Firefox/75.0',
+                    'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/79.0.3945.88 Safari/537.36',
+                    'Mozilla/5.0 (Macintosh; Intel Mac OS X 10_13_6) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/79.0.3945.88 Safari/537.36',
+                    'Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_1) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/78.0.3904.108 Safari/537.36',
+                    'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/83.0.4103.106 Safari/537.36 Edg/83.0.478.54',
+                    'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/83.0.4103.106 Safari/537.36',
+                    'Mozilla/5.0 (Windows NT 6.1; Win64; x64; rv:59.0) Gecko/20100101 Firefox/59.0',
+                    'Mozilla/5.0 (Windows NT 10.0; WOW64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/66.0.3359.139 Safari/537.36',
+                    'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/79.0.3945.88 Safari/537.36',
+                    'Mozilla/5.0 (Macintosh; Intel Mac OS X 10_13_6) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/79.0.3945.88 Safari/537.36',
+        ]
+        return random.choice(user_agents)
+
+    @staticmethod
+    def random_proxy():
+        """ 获取随机proxy地址 """
+        with open('proxy_list.txt') as f:
+            try:
+                proxy_list = f.readlines()
+            except Exception as e:
+                print(e)
+            return random.choice(proxy_list).strip()
 
     def open(self, url):
         self.driver.get(url)
